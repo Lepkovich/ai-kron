@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  node-app:
+    build: ./node-app
+    container_name: ai-node
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    networks:
+      - ai-network
+
+  nginx:
+    image: nginx:latest
+    container_name: ai-nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - node-app
+    networks:
+      - ai-network
+
+networks:
+  ai-network:
+    driver: bridge
