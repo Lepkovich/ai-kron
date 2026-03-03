@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Knowledge Base</title>
+</head>
+<body>
+
+<h2>Загрузка материала</h2>
+
+<form id="uploadForm">
+  <input type="file" name="file" required />
+  <button type="submit">Загрузить</button>
+</form>
+
+<h2>Список материалов</h2>
+
+<ul id="fileList"></ul>
+
+<script>
+const API = "/api/materials";
+
+// Загрузка
+document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(e.target);
+
+  await fetch(API + "/upload", {
+    method: "POST",
+    body: formData
+  });
+
+  loadFiles();
+});
+
+// Загрузка списка
+async function loadFiles() {
+  const res = await fetch(API + "/list");
+  const files = await res.json();
+
+  const list = document.getElementById("fileList");
+  list.innerHTML = "";
+
+  files.forEach(file => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      ${file}
+      <button onclick="deleteFile('${file}')">Удалить</button>
+    `;
+    list.appendChild(li);
+  });
+}
+
+// Удаление
+async function deleteFile(filename) {
+  await fetch(API + "/" + filename, {
+    method: "DELETE"
+  });
+  loadFiles();
+}
+
+loadFiles();
+</script>
+
+</body>
+</html>
