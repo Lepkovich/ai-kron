@@ -1,0 +1,2 @@
+FROM node:20-alpine
+RUN mkdir /test && cd /test && echo '{"dependencies":{"prisma":"5.22.0"}}' > package.json && npm install && ./node_modules/.bin/prisma --version
