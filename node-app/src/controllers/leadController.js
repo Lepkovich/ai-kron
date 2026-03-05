@@ -1,11 +1,20 @@
+import prisma from "../lib/prisma.js";
+
 export async function createLead(req, res) {
   try {
     const { name, phone, message } = req.body;
 
-    console.log("Lead received:", { name, phone, message });
+    const lead = await prisma.lead.create({
+      data: {
+        name,
+        phone,
+        message
+      }
+    });
 
     res.json({
-      status: "lead received"
+      status: "saved",
+      lead
     });
 
   } catch (error) {
