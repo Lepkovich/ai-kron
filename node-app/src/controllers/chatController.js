@@ -1,18 +1,23 @@
+import { handleChat } from "../services/chatService.js";
+
 export async function chat(req, res) {
+
   try {
-    const { message } = req.body;
 
-    console.log("Incoming message:", message);
+    const { sessionId, message } = req.body;
 
-    res.json({
-      reply: "AI response placeholder"
-    });
+    const result = await handleChat(sessionId, message);
+
+    res.json(result);
 
   } catch (error) {
+
     console.error(error);
 
     res.status(500).json({
-      error: "Internal server error"
+      error: "Chat failed"
     });
+
   }
+
 }
