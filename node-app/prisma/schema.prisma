@@ -40,3 +40,22 @@ model Lead {
   message   String?
   createdAt DateTime @default(now())
 }
+
+model KnowledgeArticle {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+
+  chunks    KnowledgeChunk[]
+}
+
+model KnowledgeChunk {
+  id         String   @id @default(uuid())
+  articleId  String
+  content    String
+  embedding  Json?
+  createdAt  DateTime @default(now())
+
+  article    KnowledgeArticle @relation(fields: [articleId], references: [id])
+}

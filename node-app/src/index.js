@@ -1,5 +1,5 @@
 import express from "express";
-import chatRoutes from "./routes/chat.routes.js";
+import chatRoutes from "./routes/chatRoutes.js";
 import materialRoutes from "./routes/material.routes.js";
 
 const app = express();

@@ -1,21 +1,18 @@
-export function buildPrompt(history) {
+export function buildPrompt(userMessage, knowledgeChunks) {
 
-  const systemPrompt = {
-    role: "system",
-    content: `
-You are an AI assistant on a website.
-Your goal is to help users and answer their questions.
+  const knowledge = knowledgeChunks.join("\n\n");
 
-Be helpful and concise.
-If the user wants consultation or service, suggest leaving a phone number.
-`
-  };
+  const prompt = `
+Используй знания ниже чтобы ответить пользователю.
 
-  const messages = history.map(m => ({
-    role: m.role,
-    content: m.content
-  }));
+ЗНАНИЯ:
+${knowledge}
 
-  return [systemPrompt, ...messages];
+ВОПРОС ПОЛЬЗОВАТЕЛЯ:
+${userMessage}
 
+Ответь как профессиональный консультант.
+`;
+
+  return prompt;
 }
